@@ -28,9 +28,9 @@ Crazy Agent is a turnkey Obsidian Vault template designed for **solo entrepreneu
 
 ### Prerequisites / 前置要求
 
-1. [Obsidian](https://obsidian.md/) installed
-2. [Hermes Agent](https://github.com/nousresearch/hermes-agent) installed and configured
-3. A terminal / messaging platform connected to Hermes
+1. [Hermes Agent](https://github.com/nousresearch/hermes-agent) installed and configured
+2. A terminal / messaging platform connected to Hermes
+3. Obsidian environment — see [Step 0 in Setup Instructions](#step-0-detect-os--install-obsidian-environment) below (auto-handled by Hermes)
 
 ### One Command / 一键搭建
 
@@ -42,13 +42,14 @@ Send this message to your Hermes Agent:
 
 Your Hermes Agent will automatically:
 
-1. ✅ Ask you for your Vault path, industry, and content platforms
-2. ✅ Create the complete 7-layer directory structure
-3. ✅ Generate 5 guided config files (`00-me/`) with industry-specific examples
-4. ✅ Generate 25 knowledge base templates (`20-wiki/`)
-5. ✅ Install 5 Skills from this repo into `~/.hermes/skills/`
-6. ✅ Configure 7 cron jobs for daily/weekly automation
-7. ✅ Initialize Git and make the first commit
+1. ✅ Detect your OS and install notesmd-cli (Obsidian CLI)
+2. ✅ Ask you for your Vault path, industry, and content platforms
+3. ✅ Create the complete 7-layer directory structure
+4. ✅ Generate 5 guided config files (`00-me/`) with industry-specific examples
+5. ✅ Generate 25 knowledge base templates (`20-wiki/`)
+6. ✅ Install 5 Skills from this repo into `~/.hermes/skills/`
+7. ✅ Configure 7 cron jobs for daily/weekly automation
+8. ✅ Register vault with notesmd-cli and initialize Git
 
 ### Without Hermes Agent / 纯手动版
 
@@ -183,7 +184,61 @@ crazy-agent/
 
 **Trigger**: User sends a message like "请按照 crazy-agent 搭建我的 Vault" or references this repo's README.
 
-#### Step 0: Confirm Information
+#### Step 0: Detect OS & Install Obsidian Environment
+
+Detect the user's operating system and set up accordingly:
+
+**Linux (Ubuntu / Debian / CentOS / etc.)** — Install [notesmd-cli](https://github.com/Yakitrak/notesmd-cli) (Obsidian CLI, works headless):
+
+```bash
+# Detect package manager and install
+if command -v brew &>/dev/null; then
+    brew tap yakitrak/yakitrak && brew install yakitrak/yakitrak/notesmd-cli
+elif command -v apt &>/dev/null; then
+    # Download binary directly
+    curl -sL https://github.com/Yakitrak/notesmd-cli/releases/latest/download/notesmd-cli-linux-amd64 -o /usr/local/bin/notesmd-cli && chmod +x /usr/local/bin/notesmd-cli
+elif command -v yum &>/dev/null || command -v dnf &>/dev/null; then
+    curl -sL https://github.com/Yakitrak/notesmd-cli/releases/latest/download/notesmd-cli-linux-amd64 -o /usr/local/bin/notesmd-cli && chmod +x /usr/local/bin/notesmd-cli
+elif command -v pacman &>/dev/null; then
+    yay -S notesmd-cli-bin
+fi
+
+# Register vault (Hermes will run this after vault creation)
+notesmd-cli add-vault "{VAULT_PATH}" --set-default
+```
+
+> If the download URL fails, check https://github.com/Yakitrak/notesmd-cli/releases for the latest binary name.
+
+**macOS** — Install Obsidian desktop (for visual editing) + notesmd-cli:
+
+```bash
+# Desktop app (optional, for GUI editing)
+brew install --cask obsidian
+
+# CLI (for terminal / Hermes automation)
+brew tap yakitrak/yakitrak && brew install yakitrak/yakitrak/notesmd-cli
+
+# Register vault (Hermes will run this after vault creation)
+notesmd-cli add-vault "{VAULT_PATH}" --set-default
+```
+
+**Windows** — Install Obsidian desktop + notesmd-cli:
+
+```powershell
+# Desktop app (optional, for GUI editing)
+winget install Obsidian.Obsidian
+
+# CLI via Scoop
+scoop bucket add scoop-yakitrak https://github.com/yakitrak/scoop-yakitrak.git
+scoop install notesmd-cli
+
+# Register vault (Hermes will run this after vault creation)
+notesmd-cli add-vault "{VAULT_PATH}" --set-default
+```
+
+> **Note**: Obsidian desktop is optional. All vault operations work through `notesmd-cli` alone. Install the desktop app only if you want a GUI for browsing and editing notes.
+
+#### Step 1: Confirm Information
 
 Ask the user to confirm (provide defaults, allow Enter to skip):
 
@@ -193,7 +248,7 @@ Ask the user to confirm (provide defaults, allow Enter to skip):
 
 Show a summary plan, wait for user confirmation before proceeding.
 
-#### Step 1: Create Directory Structure
+#### Step 2: Create Directory Structure
 
 ```bash
 VAULT="{user_confirmed_path}"
@@ -205,7 +260,7 @@ for platform in {user_selected_platforms}; do
 done
 ```
 
-#### Step 2: Create 00-me Guided Files
+#### Step 3: Create 00-me Guided Files
 
 Create 5 three-section template files in `00-me/`. Each file follows this structure:
 
@@ -227,7 +282,7 @@ Each file includes:
 - Three-section body with industry-specific examples (if user provided industry)
 - `{TODAY}` replaced with actual date
 
-#### Step 3: Create 20-wiki Templates
+#### Step 4: Create 20-wiki Templates
 
 Create 25 empty knowledge templates in `20-wiki/` subdirectories:
 
@@ -254,7 +309,7 @@ tags: []
 
 Plus a usage section explaining when to write, how to write, and related directories.
 
-#### Step 4: Create Auxiliary Files
+#### Step 5: Create Auxiliary Files
 
 1. `系统使用指南.md` — Quick start guide with directory lookup table
 2. `.gitignore` — Standard ignores (`.obsidian/`, `.DS_Store`, `.gitkeep`)
@@ -264,7 +319,7 @@ Plus a usage section explaining when to write, how to write, and related directo
 find "$VAULT" -type d -empty -exec touch {}/.gitkeep \;
 ```
 
-#### Step 5: Install Skills
+#### Step 6: Install Skills
 
 For each skill file in this repo's [`skills/`](skills/) directory:
 
@@ -280,7 +335,7 @@ Skills to install: `vault-rules`, `platform-traffic`, `private-domain`, `crm`, `
 
 > **Fallback**: If GitHub fetch fails, read the skill content directly from this README's embedded versions below.
 
-#### Step 6: Configure Cron Jobs
+#### Step 7: Configure Cron Jobs
 
 Read [`schedules/default.yaml`](schedules/default.yaml) from this repo:
 ```
@@ -293,7 +348,7 @@ For each schedule entry:
 3. Replace `{TODAY}` with current date
 4. Create using `cronjob(action='create', name=..., schedule=..., prompt=..., skills=...)`
 
-#### Step 7: Git Init
+#### Step 8: Git Init
 
 ```bash
 cd "$VAULT"
@@ -302,7 +357,7 @@ git add -A
 git commit -m "init: Vault initialized by Crazy Agent"
 ```
 
-#### Step 8: Completion Report
+#### Step 9: Completion Report
 
 Output:
 ```
@@ -330,9 +385,9 @@ Output:
 
 ════════════════════════════════════
   Next steps:
-  1. Open {VAULT_PATH} in Obsidian
-  2. Fill in the 5 files in 00-me/
-  3. Throw all your existing materials into 10-raw/inbox/
+  1. Fill in the 5 files in 00-me/
+  2. Throw all your existing materials into 10-raw/inbox/
+  3. (Optional) Install Obsidian desktop for GUI: https://obsidian.md/
   4. Start creating!
 ════════════════════════════════════
 ```
