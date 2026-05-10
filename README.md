@@ -42,14 +42,14 @@ Send this message to your Hermes Agent:
 
 Your Hermes Agent will automatically:
 
-1. ✅ Detect your OS and install notesmd-cli (Obsidian CLI)
+1. ✅ Detect your OS and install Obsidian CLI / Headless
 2. ✅ Ask you for your Vault path, industry, and content platforms
 3. ✅ Create the complete 7-layer directory structure
 4. ✅ Generate 5 guided config files (`00-me/`) with industry-specific examples
 5. ✅ Generate 25 knowledge base templates (`20-wiki/`)
 6. ✅ Install 5 Skills from this repo into `~/.hermes/skills/`
 7. ✅ Configure 7 cron jobs for daily/weekly automation
-8. ✅ Register vault with notesmd-cli and initialize Git
+8. ✅ Register vault with Obsidian CLI / Headless and initialize Git
 
 ### Without Hermes Agent / 纯手动版
 
@@ -188,55 +188,39 @@ crazy-agent/
 
 Detect the user's operating system and set up accordingly:
 
-**Linux (Ubuntu / Debian / CentOS / etc.)** — Install [notesmd-cli](https://github.com/Yakitrak/notesmd-cli) (Obsidian CLI, works headless):
+**Linux server (no desktop / headless)** — Install [Obsidian Headless](https://obsidian.md/zh/help/headless) (official, no GUI needed):
 
 ```bash
-# Detect package manager and install
-if command -v brew &>/dev/null; then
-    brew tap yakitrak/yakitrak && brew install yakitrak/yakitrak/notesmd-cli
-elif command -v apt &>/dev/null; then
-    # Download binary directly
-    curl -sL https://github.com/Yakitrak/notesmd-cli/releases/latest/download/notesmd-cli-linux-amd64 -o /usr/local/bin/notesmd-cli && chmod +x /usr/local/bin/notesmd-cli
-elif command -v yum &>/dev/null || command -v dnf &>/dev/null; then
-    curl -sL https://github.com/Yakitrak/notesmd-cli/releases/latest/download/notesmd-cli-linux-amd64 -o /usr/local/bin/notesmd-cli && chmod +x /usr/local/bin/notesmd-cli
-elif command -v pacman &>/dev/null; then
-    yay -S notesmd-cli-bin
-fi
+# Requires Node.js 22+
+npm install -g obsidian-headless
+
+# Login to your Obsidian account
+ob login
 
 # Register vault (Hermes will run this after vault creation)
-notesmd-cli add-vault "{VAULT_PATH}" --set-default
+# Obsidian Headless uses Sync — the vault must be linked to your Obsidian Sync account
 ```
 
-> If the download URL fails, check https://github.com/Yakitrak/notesmd-cli/releases for the latest binary name.
+> Obsidian Headless is a public beta. It provides CLI-based Sync and Publish without the desktop app. Requires an Obsidian account with Sync enabled.
 
-**macOS** — Install Obsidian desktop (for visual editing) + notesmd-cli:
+**Windows / macOS / Linux (with desktop)** — Install Obsidian desktop + enable [Obsidian CLI](https://obsidian.md/zh/help/cli):
+
+1. Install [Obsidian](https://obsidian.md/) 1.12.7+:
+   - **macOS**: `brew install --cask obsidian`
+   - **Windows**: `winget install Obsidian.Obsidian`
+   - **Linux (deb)**: Download from https://obsidian.md/download
+2. Launch Obsidian → **Settings → General → Enable Command Line Interface**
+3. Follow the registration prompt
 
 ```bash
-# Desktop app (optional, for GUI editing)
-brew install --cask obsidian
-
-# CLI (for terminal / Hermes automation)
-brew tap yakitrak/yakitrak && brew install yakitrak/yakitrak/notesmd-cli
+# Verify installation
+obsidian help
 
 # Register vault (Hermes will run this after vault creation)
-notesmd-cli add-vault "{VAULT_PATH}" --set-default
+# The CLI auto-detects vaults opened in the desktop app
 ```
 
-**Windows** — Install Obsidian desktop + notesmd-cli:
-
-```powershell
-# Desktop app (optional, for GUI editing)
-winget install Obsidian.Obsidian
-
-# CLI via Scoop
-scoop bucket add scoop-yakitrak https://github.com/yakitrak/scoop-yakitrak.git
-scoop install notesmd-cli
-
-# Register vault (Hermes will run this after vault creation)
-notesmd-cli add-vault "{VAULT_PATH}" --set-default
-```
-
-> **Note**: Obsidian desktop is optional. All vault operations work through `notesmd-cli` alone. Install the desktop app only if you want a GUI for browsing and editing notes.
+> **Note**: Obsidian CLI requires the desktop app to be running. If you need a fully headless setup, use Obsidian Headless above.
 
 #### Step 1: Confirm Information
 
