@@ -46,15 +46,16 @@ trigger: 用户说"帮我出选题"、"生成选题"、"写内容"、"写文章"
 
 #### 2.3 创建选题卡
 路径：`{VAULT_ROOT}/30-flow/10-公域流量/10-选题池/`
-命名：`📋选题中-{YYYY-MM-DD}-{选题标题}.md`
+命名：`📋待选-{YYYY-MM-DD}-{选题标题}.md`
 
 ```yaml
 ---
 title: "{选题标题}"
-status: 选题中
+status: 待选
 type: 选题卡
 platform: {目标平台}
 created: {YYYY-MM-DD}
+updated: {YYYY-MM-DD}
 tags: [标签]
 source: ""
 ---
@@ -105,7 +106,7 @@ source: ""
 
 #### 4.1 状态流转
 ```
-📋选题中 → 📝草稿 → 📤待发布 → ✅已发布 → 🚫Closed
+📋待选 → 📝草稿 → 📤待发布 → ✅已发布 → 🚫Closed
 ```
 视频额外：`📝草稿 → 🎥拍摄中 → ✂️剪辑中 → 📤待发布`
 
