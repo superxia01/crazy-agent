@@ -1,392 +1,433 @@
 # Crazy Agent 🚀
 
+> **一句话搭建 Obsidian 知识库 + AI Agent，专为个人 IP 和内容创业者设计。**
 > **One-command Obsidian Vault setup for personal IP & content creators.**
-> 
-> **一句话版 Obsidian 知识库搭建工具，专为个人IP和内容创作者设计。**
+
+一套为「一个人就是一家公司」设计的 Obsidian 知识库模板 + Hermes Agent 配置包。支持国内版和海外版两个市场。
 
 ---
 
-## ✨ What is this? / 这是什么？
+## ✨ 这是什么？
 
-Crazy Agent is a turnkey Obsidian Vault template designed for **solo entrepreneurs and content creators** who want to run their business like a one-person company.
+Crazy Agent 是一个 turnkey 知识库模板，包含：
 
-一套为「一个人就是一家公司」设计的 Obsidian 知识库模板 + Hermes Agent 配置包。
+- **九层 Vault 目录结构**（60+ 子目录，30+ 引导式模板）
+- **10 个 Hermes Agent Skills**（文件管理、内容运营、CRM、财务、人事、项目管理等）
+- **自动化定时任务**（内容提醒、数据回收、CRM 跟进等）
+- **Mock 演示数据**（5 个客户、10+ 篇内容、3 篇 wiki，即装即用）
+- **国内版 / 海外版** 一键切换（平台、渠道、CRM 完全不同）
 
-**What you get / 你将得到：**
-
-- A complete 7-layer Vault structure (directory + 30+ guided templates)
-- 5 built-in Hermes Agent Skills (file management, content ops, CRM, etc.)
-- 7 automated cron jobs (social media reminders, data collection, etc.)
-- Git-ready with conventions built in
-
-**使用 Hermes Agent 的话**：一句话搞定全部搭建。
+**使用 Hermes Agent**：一句话搞定全部搭建。
 **不用 Hermes Agent**：纯 Obsidian 也能完整使用。
 
 ---
 
-## 🚀 Quick Start / 快速开始
-
-### Prerequisites / 前置要求
-
-1. [Hermes Agent](https://github.com/nousresearch/hermes-agent) installed and configured
-2. A terminal / messaging platform connected to Hermes
-3. Obsidian environment — see [Step 0 in Setup Instructions](#step-0-detect-os--install-obsidian-environment) below (auto-handled by Hermes)
-
-### One Command / 一键搭建
-
-Send this message to your Hermes Agent:
-
-```
-请访问 https://github.com/superxia01/crazy-agent 的 README，按里面的搭建指令初始化我的 Vault。
-```
-
-Your Hermes Agent will automatically:
-
-1. ✅ Detect your OS and install Obsidian CLI / Headless
-2. ✅ Ask you for your Vault path, industry, and content platforms
-3. ✅ Create the complete 7-layer directory structure
-4. ✅ Generate 5 guided config files (`00-me/`) with industry-specific examples
-5. ✅ Generate 25 knowledge base templates (`20-wiki/`)
-6. ✅ Install 5 Skills from this repo into `~/.hermes/skills/`
-7. ✅ Configure 7 cron jobs for daily/weekly automation
-8. ✅ Register vault with Obsidian CLI / Headless and initialize Git
-
-### Without Hermes Agent / 纯手动版
-
-If you don't use Hermes Agent, follow the **[Manual Setup Guide](#-manual-setup--手动搭建)** below.
-
----
-
-## 🏗️ Vault Architecture / Vault 架构
-
-```
-Vault Root/
-├── 00-me/          🧠 Identity — Who you are, what you sell, who you serve
-├── 10-raw/         📥 Input — Raw materials inbox (read-only, never modify)
-├── 20-wiki/        📚 Knowledge — Your digested insights (conclusions only)
-├── 30-flow/        🔁 Workflow — Daily operations (create, publish, follow up)
-├── 40-agents/      🤖 AI Layer — Agent configs and prompts (optional)
-├── 50-projects/    📦 Entities — Client files, brand assets, account profiles
-├── 60-assets/      💰 Templates — Reusable templates and deliverables
-└── 99-archive/     🗄️ Archive — Completed and retired content
-```
-
-### Three Iron Rules / 三条铁律
-
-| Layer | Rule / 规则 |
-|-------|-------------|
-| `10-raw` | **只进不改** — Materials go in, never get modified. If you can't rewrite it in your own words, it stays here. |
-| `20-wiki` | **只放结论** — Only your own conclusions. If you're copy-pasting, it belongs in raw. |
-| `30-flow` | **只做调用** — Work here calls on wiki knowledge, never produces it. |
-
-### Data Flow / 数据流
-
-```
-See good content → 10-raw/inbox/ (throw it in)
-                     ↓ periodic cleanup
-              Valuable ones → Digest and refine
-                     ↓
-              20-wiki/ (write conclusions in your own words)
-                     ↓
-              30-flow/ (use wiki knowledge for daily work)
-                     ↓
-              50-projects/ (land on real clients/projects)
-                     ↓
-              60-assets/ (good stuff becomes reusable assets)
-```
-
----
-
-## 🤖 Built-in Skills / 内置技能
-
-Located in the [`skills/`](skills/) directory. These are Hermes Agent Skill files that get installed during setup.
-
-| Skill | Trigger / 触发方式 | Description / 功能 |
-|-------|-------------------|-------------------|
-| **vault-rules** | Auto-loaded | Vault file operation conventions: naming, status flow, path routing |
-| **platform-traffic** | "帮我出选题" / "写文章" | Topic generation → Content creation → Publishing → Data tracking |
-| **private-domain** | "发朋友圈" / "私域" | WeChat Moments planning, community management, weekly reports |
-| **crm** | "新客户" / "跟进" | Lead entry, client tiering, follow-up tracking, deal archiving |
-| **raw-refine** | "提炼素材" / "整理raw" | Digest raw materials into wiki knowledge cards |
-
-### Adding More Skills / 添加更多 Skill
-
-To add a new universal skill:
-
-1. Create a new `.md` file in [`skills/`](skills/)
-2. Follow the [Hermes Skill format](#skill-file-format)
-3. Add an entry to the setup instructions (Step 5 below)
-4. Submit a PR
-
-### Skill File Format / Skill 文件格式
-
-```markdown
----
-name: skill-name
-description: What this skill does
-trigger: When to auto-load this skill
----
-
-# Skill Title
-
-> One-line description
-
----
-
-## Instructions
-...
-```
-
-Replace `{VAULT_ROOT}` with the user's actual Vault path during installation.
-
----
-
-## ⏰ Cron Schedules / 定时任务
-
-Located in [`schedules/default.yaml`](schedules/default.yaml). Configured during setup.
-
-| Task / 任务 | Schedule / 时间 | Description / 说明 |
-|-------------|----------------|-------------------|
-| Moments reminder (AM) / 朋友圈提醒 | Daily 10:00 | Check today's content, suggest directions |
-| Moments reminder (PM) / 朋友圈提醒 | Daily 14:00 | Follow up on AM publish status |
-| Moments reminder (EVE) / 朋友圈提醒 | Daily 19:00 | End-of-day check, count today's posts |
-| Raw cleanup / 素材清理 | Mon 9:00 | Scan raw inbox, assess material value |
-| Data collection / 数据回收 | Sun 20:00 | Remind to report content performance data |
-| CRM follow-up / CRM跟进 | Wed 9:00 | Check overdue client follow-ups |
-| Topic pool check / 选题检查 | Fri 15:00 | Assess topic inventory, suggest refills |
-
----
-
-## 📦 Repo Structure / 仓库结构
+## 🏗️ 架构设计
 
 ```
 crazy-agent/
-├── README.md                    ← You are here / 产品文档 + 搭建指令
-├── skills/                      ← Hermes Agent Skill files
-│   ├── vault-rules.md           ← File operation conventions
-│   ├── platform-traffic.md      ← Content operations workflow
-│   ├── private-domain.md        ← Private domain & social media
-│   ├── crm.md                   ← Customer relationship management
-│   └── raw-refine.md            ← Raw material refinement
-└── schedules/
-    └── default.yaml             ← Default cron job configurations
+├── README.md                    ← 你在这里
+├── _shared/                     ← 📦 共享骨架（两个版本共用）
+│   ├── skeleton/                ←   九层目录定义 + 命名规则 + 状态流转
+│   ├── templates/               ←   共享模板（00-me / 20-wiki / 30-flow / 40-agents）
+│   ├── skills/                  ←   共享 Skills（7 个）
+│   └── mock-data/               ←   演示数据（可删可留）
+├── _variants/
+│   ├── domestic/                ← 🇨🇳 国内版差集（微信/公众号/小红书/抖音）
+│   │   ├── skills/              ←   CRM / 公域流量 / 私域运营（国内版）
+│   │   ├── templates/           ←   国内版模板差异
+│   │   └── schedules/           ←   国内版定时任务
+│   └── overseas/                ← 🌍 海外版差集（WhatsApp/Email/FB/IG/TikTok/YouTube）
+│       ├── skills/              ←   CRM / 公域流量 / 私域运营（海外版）
+│       ├── templates/           ←   海外版模板差异
+│       └── schedules/           ←   海外版定时任务
+└── skills/                      ← （兼容旧版，已迁移到 _shared/skills/）
+```
+
+### 搭建逻辑：Shared + Variant = 你的 Vault
+
+```
+_shared/（通用骨架）
+    ↓ 复制到 Vault 根目录
++ _variants/domestic/ 或 _variants/overseas/（市场差集）
+    ↓ 覆盖对应文件
+= 完整的 Vault
 ```
 
 ---
 
-## 🛠️ Setup Instructions / 搭建指令
+## 🚀 快速开始
 
-> **For Hermes Agent only.** The following is the complete instruction set that Hermes Agent executes when a user says "setup my Vault from crazy-agent".
+### 前置要求
+
+1. [Hermes Agent](https://github.com/nousresearch/hermes-agent) 已安装并配置
+2. 终端或消息平台已连接 Hermes
+3. Obsidian 环境（Hermes 会自动帮你装）
+
+### 一键搭建
+
+**国内版（公众号/小红书/抖音）：**
+```
+请访问 https://github.com/superxia01/crazy-agent 的 README，按国内版搭建指令初始化我的 Vault。
+```
+
+**海外版（FB/IG/TikTok/YouTube/WhatsApp）：**
+```
+请访问 https://github.com/superxia01/crazy-agent 的 README，按海外版搭建指令初始化我的 Vault。
+```
+
+Hermes Agent 会自动完成全部搭建步骤。
 
 ---
 
-### For Hermes Agent: Execute the following steps when triggered
+## 📐 Vault 九层架构
 
-**Trigger**: User sends a message like "请按照 crazy-agent 搭建我的 Vault" or references this repo's README.
+```
+Vault Root/
+├── 00-me/          🧠 Identity — 你是谁、卖什么、服务谁
+│   ├── 10-定位与品牌/     IP定位、品牌风格
+│   ├── 20-产品与业务/     产品清单、价格体系
+│   ├── 30-目标客户/       客户画像、分层标准
+│   ├── 40-账号矩阵/       平台账号、人设统一
+│   └── 50-目标与节奏/     商业目标、日常节奏
+├── 10-raw/         📥 Input — 素材收件箱（只进不改）
+├── 20-wiki/        📚 Knowledge — 你消化后的知识（只放结论）
+│   ├── 10-行业与市场/
+│   ├── 20-产品知识/
+│   ├── 30-客户洞察/
+│   ├── 40-销售与转化/
+│   ├── 50-内容与流量/
+│   └── 60-实战复盘/
+├── 30-flow/        🔁 Workflow — 日常工作流
+│   ├── 10-公域流量/       选题→创作→发布→数据
+│   ├── 20-私域运营/       朋友圈/社群/数据周报
+│   ├── 30-CRM/            线索→跟进→成交→归档
+│   └── 40-产品交付/       交付物管理
+├── 40-agents/      🤖 AI Layer — Agent 配置和 Skills
+├── 50-projects/    📦 Entities — 客户档案、品牌资产
+├── 60-assets/      💰 Templates — 可复用模板
+└── 99-archive/     🗄️ Archive — 归档
+```
 
-#### Step 0: Detect OS & Install Obsidian Environment
+### 三条铁律
 
-Detect the user's operating system and set up accordingly:
+| 层 | 规则 |
+|----|------|
+| `10-raw` | **只进不改** — 素材扔进去，永远不改原文件。改写不了的留在 raw。 |
+| `20-wiki` | **只放结论** — 只写你自己消化后的结论。复制粘贴的放 raw。 |
+| `30-flow` | **只做调用** — 这里的工作只调用 wiki 知识，不产出知识。 |
 
-**Linux server (no desktop / headless)** — Install [Obsidian Headless](https://obsidian.md/zh/help/headless) (official, no GUI needed):
+### 数据流
 
+```
+看到好内容 → 10-raw/inbox/（扔进去）
+                ↓ 定期清理
+            有价值的 → 消化提炼
+                ↓
+            20-wiki/（用自己的话写结论）
+                ↓
+            30-flow/（用 wiki 知识做日常工作）
+                ↓
+            50-projects/（落到真实客户/项目）
+                ↓
+            60-assets/（好东西变成可复用资产）
+```
+
+---
+
+## 🤖 内置 Skills
+
+### 共享 Skills（7 个，国内版和海外版通用）
+
+| Skill | 触发 | 功能 |
+|-------|------|------|
+| **vault-rules** | 自动加载 | Vault 文件操作规范：命名、状态流转、路径路由 |
+| **raw-refine** | "提炼素材" / "整理raw" | 素材消化提炼为 wiki 知识卡 |
+| **finance** | "记账" / "收支" / "财务" | 收支记录、月度利润、发票管理 |
+| **hr** | "员工" / "招聘" / "薪资" | 员工档案、考勤、绩效评估 |
+| **project** | "项目" / "任务" / "进度" | 项目卡片、任务列表、进度追踪 |
+| **inventory** | "库存" / "SKU" / "发货" | SKU 管理、订单追踪、库存预警 |
+| **dashboard** | "周报" / "数据看板" / "复盘" | 多维度数据汇总、周报/月报生成 |
+
+### 国内版 Skills（3 个）
+
+| Skill | 触发 | 功能 |
+|-------|------|------|
+| **platform-traffic** | "帮我出选题" / "写文章" | 公众号/小红书/抖音/视频号：选题→创作→发布→数据 |
+| **private-domain** | "发朋友圈" / "私域" | 朋友圈内容规划、社群运营、数据周报 |
+| **crm** | "新客户" / "跟进" / "成交了" | 微信+电话 CRM，线索到成交全流程 |
+
+### 海外版 Skills（3 个）
+
+| Skill | 触发 | 功能 |
+|-------|------|------|
+| **platform-traffic** | "发帖" / "content" / "选题" | FB/IG/TikTok/YouTube/Blog：选题→创作→发布→数据 |
+| **private-domain** | "WhatsApp" / "Email Newsletter" | WhatsApp Status/Broadcast、Newsletter、FB Groups 运营 |
+| **crm** | "new lead" / "follow up" / "quotation" | WhatsApp/Email/LinkedIn CRM，多时区多币种 |
+
+---
+
+## 📦 仓库文件统计
+
+```
+_shared/          97 文件  — 共享骨架 + 模板 + Skills + Mock 数据
+_variants/domestic/  15 文件  — 国内版差集
+_variants/overseas/  19 文件  — 海外版差集
+合计约 130+ 文件
+```
+
+---
+
+## 🛠️ 搭建指令（Hermes Agent 专用）
+
+> 以下指令由 Hermes Agent 执行。用户发送搭建请求后，Agent 按以下步骤操作。
+
+---
+
+### 国内版搭建指令
+
+**触发条件**：用户说"请按照 crazy-agent 国内版搭建我的 Vault"或引用本 README。
+
+#### Phase 1: 环境准备
+
+检测操作系统，安装 Obsidian 环境：
+
+**Linux 无桌面** — 安装 [Obsidian Headless](https://obsidian.md/zh/help/headless)：
 ```bash
-# Requires Node.js 22+
 npm install -g obsidian-headless
-
-# Login to your Obsidian account
 ob login
-
-# Register vault (Hermes will run this after vault creation)
-# Obsidian Headless uses Sync — the vault must be linked to your Obsidian Sync account
 ```
 
-> Obsidian Headless is a public beta. It provides CLI-based Sync and Publish without the desktop app. Requires an Obsidian account with Sync enabled.
+**Windows / macOS / Linux 有桌面** — 安装 Obsidian + CLI：
+1. 安装 [Obsidian](https://obsidian.md/) 1.12.7+
+2. 设置 → 通用 → 启用命令行界面
+3. `obsidian help` 验证
 
-**Windows / macOS / Linux (with desktop)** — Install Obsidian desktop + enable [Obsidian CLI](https://obsidian.md/zh/help/cli):
+#### Phase 2: 确认信息
 
-1. Install [Obsidian](https://obsidian.md/) 1.12.7+:
-   - **macOS**: `brew install --cask obsidian`
-   - **Windows**: `winget install Obsidian.Obsidian`
-   - **Linux (deb)**: Download from https://obsidian.md/download
-2. Launch Obsidian → **Settings → General → Enable Command Line Interface**
-3. Follow the registration prompt
+询问用户确认（提供默认值，回车可跳过）：
 
-```bash
-# Verify installation
-obsidian help
+1. **Vault 路径** — 默认：`~/Documents/my-vault/`
+2. **行业** — 默认：空（用户后续填写，但用于 00-me 模板的行业示例）
+3. **内容平台** — 默认：`公众号`。选项：公众号/小红书/抖音/视频号/Blog（多选）
+4. **是否包含 Mock 数据** — 默认：是
 
-# Register vault (Hermes will run this after vault creation)
-# The CLI auto-detects vaults opened in the desktop app
-```
+显示摘要，等待用户确认后继续。
 
-> **Note**: Obsidian CLI requires the desktop app to be running. If you need a fully headless setup, use Obsidian Headless above.
-
-#### Step 1: Confirm Information
-
-Ask the user to confirm (provide defaults, allow Enter to skip):
-
-1. **Vault path** — Default: `~/Documents/my-vault/`
-2. **Industry** — Default: empty (user fills in later). If provided, use it for `00-me` template examples.
-3. **Content platforms** — Default: `公众号`. Options: 公众号/小红书/抖音/视频号/Blog
-
-Show a summary plan, wait for user confirmation before proceeding.
-
-#### Step 2: Create Directory Structure
+#### Phase 3: 创建 Vault 结构
 
 ```bash
-VAULT="{user_confirmed_path}"
+VAULT="{用户确认的路径}"
+
+# 复制共享骨架
+cp -r _shared/skeleton/* "$VAULT/skeleton-temp/"
+cp -r _shared/templates/* "$VAULT/templates-temp/"
+cp -r _shared/skills/* "$VAULT/skills-temp/"
+
+# 创建九层目录
 mkdir -p "$VAULT"/{00-me/{10-定位与品牌,20-产品与业务,30-目标客户,40-账号矩阵,50-目标与节奏},10-raw/{inbox,cleaned,tagged},20-wiki/{10-行业与市场,20-产品知识,30-客户洞察,40-销售与转化,50-内容与流量,60-实战复盘},30-flow/{10-公域流量/{10-选题池,20-内容管理,30-数据统计,40-内容资产,50-素材提炼},20-私域运营/{10-朋友圈,20-社群,30-数据周报},30-CRM/{10-线索管理,20-成交记录},40-产品交付},40-agents/{skills,schedules,10-内容创作,20-调研分析,30-运营管理,40-效率工具},50-projects/{客户,品牌,账号},60-assets/{内容模板,PPT模板,报价方案,合同},99-archive}
 
-# Create platform-specific content directories
-for platform in {user_selected_platforms}; do
+# 创建平台特定目录
+for platform in {用户选择的平台}; do
   mkdir -p "$VAULT/30-flow/10-公域流量/20-内容管理/$platform"
 done
 ```
 
-#### Step 3: Create 00-me Guided Files
+#### Phase 4: 放置共享模板
 
-Create 5 three-section template files in `00-me/`. Each file follows this structure:
+将 `_shared/templates/` 下的文件复制到 Vault 对应位置：
 
-```
-📌 填写指南 (How to fill in — 2-3 paragraphs, conversational tone)
-✏️ 你的内容 (Your content — fill-in-the-blank format with hints)
-📖 参考：[Industry]示例 (Reference example from a real industry)
-```
+| 源 | 目标 |
+|----|------|
+| `templates/me/*.md` | `00-me/` 对应子目录 |
+| `templates/wiki/**/*.md` | `20-wiki/` 对应子目录 |
+| `templates/flow/*.md` | `30-flow/` 对应子目录（按文件名判断） |
+| `templates/agents/*.md` | `40-agents/` 对应子目录 |
+| `templates/root/系统使用指南.md` | `系统使用指南.md`（Vault 根目录） |
+| `templates/root/骨架设计说明.md` | `骨架设计说明.md`（Vault 根目录） |
 
-Files to create:
-1. `00-me/10-定位与品牌/IP定位.md`
-2. `00-me/10-定位与品牌/品牌风格指南.md`
-3. `00-me/20-产品与业务/产品与服务清单.md`
-4. `00-me/30-目标客户/目标客户画像.md`
-5. `00-me/50-目标与节奏/日常工作节奏.md`
+#### Phase 5: 覆盖国内版差集
 
-Each file includes:
-- YAML frontmatter with `title`, `type: config`, `category`, `created`, `updated`
-- Three-section body with industry-specific examples (if user provided industry)
-- `{TODAY}` replaced with actual date
+将 `_variants/domestic/` 下的文件复制到 Vault 对应位置（覆盖同名共享文件）：
 
-#### Step 4: Create 20-wiki Templates
+| 源 | 目标 |
+|----|------|
+| `skills/crm.md` | `40-agents/skills/crm.md` |
+| `skills/platform-traffic.md` | `40-agents/skills/platform-traffic.md` |
+| `skills/private-domain.md` | `40-agents/skills/private-domain.md` |
+| `templates/me/产品与服务清单.md` | `00-me/20-产品与业务/产品与服务清单.md` |
+| `templates/me/目标客户画像.md` | `00-me/30-目标客户/目标客户画像.md` |
+| `templates/me/平台账号信息.md` | `00-me/40-账号矩阵/平台账号信息.md` |
+| `templates/flow/_template-选题卡.md` | `30-flow/10-公域流量/10-选题池/_template-选题卡.md` |
+| `templates/flow/_template-线索卡.md` | `30-flow/30-CRM/10-线索管理/_template-线索卡.md` |
+| `templates/flow/填写指南.md` | `30-flow/30-CRM/20-成交记录/填写指南.md` |
+| `templates/assets/*.md` | `60-assets/内容模板/` |
 
-Create 25 empty knowledge templates in `20-wiki/` subdirectories:
+#### Phase 6: 安装 Skills
 
-| Directory | Files |
-|-----------|-------|
-| `10-行业与市场/` | 行业全景.md, 竞争格局.md, 行业趋势.md, 行业术语表.md |
-| `20-产品知识/` | 产品深度解析.md, 竞品对比分析.md, 客户常见疑问FAQ.md, 产品话术.md |
-| `30-客户洞察/` | 客户痛点地图.md, 客户决策路径.md, 异议处理手册.md, 客户类型画像.md |
-| `40-销售与转化/` | 谈单方法论.md, 跟进话术库.md, 报价策略.md, 成交信号识别.md, 转介绍方法论.md |
-| `50-内容与流量/` | 平台玩法总结.md, 爆款内容拆解.md, 标题公式库.md, 内容形式指南.md, 发布节奏与时机.md |
-| `60-实战复盘/` | 成功案例库.md, 失败复盘.md, 数据规律沉淀.md |
+将 `_shared/skills/` 和 `_variants/domestic/skills/` 的所有 .md 文件安装到 Hermes：
 
-Each wiki file includes:
-```yaml
----
-title: {title}
-type: wiki
-category: {category}
-created: {YYYY-MM-DD}
-updated: {YYYY-MM-DD}
-tags: []
----
-```
+对每个 skill 文件：
+1. 读取内容
+2. 将 `{VAULT_ROOT}` 替换为用户的实际 Vault 路径
+3. 使用 `skill_manage(action='create', name=..., content=...)` 安装
 
-Plus a usage section explaining when to write, how to write, and related directories.
+共享 Skills：`vault-rules`, `raw-refine`, `finance`, `hr`, `project`, `inventory`, `dashboard`
+国内版 Skills：`crm`, `platform-traffic`, `private-domain`
 
-#### Step 5: Create Auxiliary Files
+共 10 个 Skills。
 
-1. `系统使用指南.md` — Quick start guide with directory lookup table
-2. `.gitignore` — Standard ignores (`.obsidian/`, `.DS_Store`, `.gitkeep`)
-3. `.gitkeep` in all empty directories
+#### Phase 7: 配置定时任务
 
+读取 `_variants/domestic/schedules/default-schedules.yaml`，为每个任务：
+1. 替换 `{VAULT_ROOT}` 为用户 Vault 路径
+2. 使用 `cronjob(action='create', ...)` 创建
+
+国内版定时任务：朋友圈提醒 ×3 + 素材清理 + 数据回收 + CRM跟进 + 选题检查 = 7 个
+
+#### Phase 8: 放置 Mock 数据（可选）
+
+如果用户选择包含 Mock 数据：
 ```bash
-find "$VAULT" -type d -empty -exec touch {}/.gitkeep \;
+cp -r _shared/mock-data/* "$VAULT/"  # 覆盖对应目录
 ```
 
-#### Step 6: Install Skills
+将 mock 数据中所有文件的 `{VAULT_ROOT}` 替换为实际路径。
 
-For each skill file in this repo's [`skills/`](skills/) directory:
-
-1. **Fetch the raw content** from GitHub:
-   ```
-   https://raw.githubusercontent.com/superxia01/crazy-agent/main/skills/{skill-name}.md
-   ```
-2. **Replace** `{VAULT_ROOT}` with the user's actual Vault path
-3. **Install** using `skill_manage(action='create', name='{skill-name}', content=<content>)`
-4. **Verify** installation by loading the skill
-
-Skills to install: `vault-rules`, `platform-traffic`, `private-domain`, `crm`, `raw-refine`
-
-> **Fallback**: If GitHub fetch fails, read the skill content directly from this README's embedded versions below.
-
-#### Step 7: Configure Cron Jobs
-
-Read [`schedules/default.yaml`](schedules/default.yaml) from this repo:
-```
-https://raw.githubusercontent.com/superxia01/crazy-agent/main/schedules/default.yaml
-```
-
-For each schedule entry:
-1. Replace `{VAULT_ROOT}` with user's Vault path
-2. Replace `{DELIVERY}` with `"origin"` (deliver back to current conversation)
-3. Replace `{TODAY}` with current date
-4. Create using `cronjob(action='create', name=..., schedule=..., prompt=..., skills=...)`
-
-#### Step 8: Git Init
+#### Phase 9: 初始化 Git
 
 ```bash
 cd "$VAULT"
+
+# 创建 .gitignore
+cat > .gitignore << 'EOF'
+.obsidian/
+.DS_Store
+.gitkeep
+*.swp
+EOF
+
 git init
 git add -A
-git commit -m "init: Vault initialized by Crazy Agent"
+git commit -m "init: Vault initialized by Crazy Agent (domestic)"
 ```
 
-#### Step 9: Completion Report
+#### Phase 10: 完成报告
 
-Output:
+输出：
 ```
 ════════════════════════════════════
-  ✅ Vault Setup Complete!
+  ✅ 国内版 Vault 搭建完成！
 ════════════════════════════════════
 
-📁 Vault Path: {VAULT_PATH}
-📂 Directories created: {count}
-📄 Files created: {count}
+📁 Vault 路径：{VAULT_PATH}
+📂 目录数：{count}
+📄 文件数：{count}
+🎭 包含 Mock 数据：是/否
 
-🤖 Skills installed (5):
-   ✅ vault-rules
-   ✅ platform-traffic
-   ✅ private-domain
-   ✅ crm
-   ✅ raw-refine
+🤖 Skills 已安装（10 个）：
+   ✅ vault-rules（文件规范）
+   ✅ raw-refine（素材提炼）
+   ✅ finance（财务管理）
+   ✅ hr（人事管理）
+   ✅ project（项目管理）
+   ✅ inventory（库存管理）
+   ✅ dashboard（数据看板）
+   ✅ crm（客户关系管理）
+   ✅ platform-traffic（公域流量运营）
+   ✅ private-domain（私域运营）
 
-⏰ Cron jobs configured (7):
-   ✅ Moments reminders (10:00 / 14:00 / 19:00)
-   ✅ Raw cleanup (Mon 9:00)
-   ✅ Data collection (Sun 20:00)
-   ✅ CRM follow-up (Wed 9:00)
-   ✅ Topic pool check (Fri 15:00)
+⏰ 定时任务（7 个）：
+   ✅ 朋友圈提醒（10:00 / 14:00 / 19:00）
+   ✅ 素材清理（周一 9:00）
+   ✅ 数据回收（周日 20:00）
+   ✅ CRM 跟进（周三 9:00）
+   ✅ 选题检查（周五 15:00）
 
 ════════════════════════════════════
-  Next steps:
-  1. Fill in the 5 files in 00-me/
-  2. Throw all your existing materials into 10-raw/inbox/
-  3. (Optional) Install Obsidian desktop for GUI: https://obsidian.md/
-  4. Start creating!
+  下一步：
+  1. 打开 Obsidian，浏览 Vault 结构
+  2. 填写 00-me/ 下的 5 个配置文件
+  3. 把现有素材扔进 10-raw/inbox/
+  4. 如果不需要 Mock 数据，删除带 mock:true 的文件
+  5. 开始创作！
 ════════════════════════════════════
 ```
 
 ---
 
-## 📝 Manual Setup / 手动搭建
+### 海外版搭建指令
 
-If you don't use Hermes Agent:
+**触发条件**：用户说"请按照 crazy-agent 海外版搭建我的 Vault"或引用本 README 海外版部分。
 
-1. Create the directory structure shown above using `mkdir -p`
-2. Create 00-me guided files following the three-section format (📌 填写指南 / ✏️ 你的内容 / 📖 参考)
-3. Create wiki template files following the format shown in Step 3 above
-4. Copy skill files to `~/.hermes/skills/` and replace `{VAULT_ROOT}` with your path
-5. Configure cron jobs manually following `schedules/default.yaml`
+与国内版的差异仅在以下步骤：
+
+#### Phase 2 确认信息差异
+
+3. **内容平台** — 默认：`Facebook`。选项：Facebook/Instagram/TikTok/YouTube/Blog（多选）
+4. **目标市场时区** — 默认：`EST (UTC-5)`。选项：EST/PST/GMT/GST
+5. **内容语言** — 默认：`English`
+
+#### Phase 3 目录结构差异
+
+平台目录创建：
+```bash
+for platform in {用户选择的平台}; do
+  mkdir -p "$VAULT/30-flow/10-公域流量/20-内容管理/$platform"
+done
+```
+
+#### Phase 5 差集差异
+
+使用 `_variants/overseas/` 而非 `_variants/domestic/`：
+
+| 源 | 目标 |
+|----|------|
+| `skills/crm.md` | `40-agents/skills/crm.md` |
+| `skills/platform-traffic.md` | `40-agents/skills/platform-traffic.md` |
+| `skills/private-domain.md` | `40-agents/skills/private-domain.md` |
+| `templates/me/产品与服务清单.md` | `00-me/20-产品与业务/产品与服务清单.md` |
+| `templates/me/目标客户画像.md` | `00-me/30-目标客户/目标客户画像.md` |
+| `templates/me/平台账号信息.md` | `00-me/40-账号矩阵/平台账号信息.md` |
+| `templates/flow/_template-选题卡.md` | `30-flow/10-公域流量/10-选题池/_template-选题卡.md` |
+| `templates/flow/_template-线索卡.md` | `30-flow/30-CRM/10-线索管理/_template-线索卡.md` |
+| `templates/flow/成交记录填写指南.md` | `30-flow/30-CRM/20-成交记录/填写指南.md` |
+| `templates/assets/*.md` | `60-assets/内容模板/`（7 个海外平台模板） |
+
+#### Phase 6 Skills 差异
+
+海外版 Skills：`crm`, `platform-traffic`, `private-domain`（从 `_variants/overseas/skills/` 安装）
+共仍为 10 个 Skills（7 共享 + 3 海外版）。
+
+#### Phase 7 定时任务差异
+
+读取 `_variants/overseas/schedules/default-schedules.yaml`。
+
+海外版定时任务：WhatsApp Status 提醒 + Email Newsletter 检查 + 素材清理 + 数据回收 + CRM跟进 + 选题检查 = 6 个
+
+#### Phase 10 完成报告差异
+
+```
+⏰ 定时任务（6 个）：
+   ✅ WhatsApp Status 提醒（每日 10:00）
+   ✅ Email Newsletter 检查（周一 14:00）
+   ✅ 素材清理（周一 9:00）
+   ✅ 数据回收（周日 20:00）
+   ✅ CRM 跟进（周三 9:00）
+   ✅ 选题检查（周五 15:00）
+```
+
+---
+
+## 📝 手动搭建
+
+不用 Hermes Agent 也可以：
+
+1. 创建上述九层目录结构（`mkdir -p`）
+2. 从 `_shared/templates/` 复制模板到对应位置
+3. 选择 `_variants/domestic/` 或 `_variants/overseas/` 覆盖差异文件
+4. 将 `_shared/skills/` 复制到 `~/.hermes/skills/`，替换 `{VAULT_ROOT}`
+5. 按需配置 cron 任务
 
 ---
 

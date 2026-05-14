@@ -1,0 +1,69 @@
+schedules:
+  - name: "WhatsApp Status 提醒"
+    schedule: "0 10 * * *"
+    prompt: |
+      现在是上午10点，请检查 WhatsApp Status 内容规划：
+      1. 读取 {VAULT_ROOT}/30-flow/20-私域运营/10-朋友圈/ 目录
+      2. 如果今天还没有安排内容，参考品牌风格和最近发布记录，推荐1-2个内容方向
+      3. 海外时区注意：根据目标市场时区（EST/PST/GMT）调整发布时间建议
+      4. 语气简洁，像助理提醒一样
+    skills:
+      - "private-domain"
+      - "vault-rules"
+
+  - name: "Email Newsletter 检查"
+    schedule: "0 14 * * 1"
+    prompt: |
+      周一下午，请检查 Email Newsletter 排期：
+      1. 读取 {VAULT_ROOT}/30-flow/20-私域运营/20-社群/ 目录
+      2. 检查本周是否已有 Newsletter 内容安排
+      3. 如果没有，给出选题方向建议
+      4. 注意 GDPR 合规提醒
+    skills:
+      - "private-domain"
+
+  - name: "素材清理提醒-周报"
+    schedule: "0 9 * * 1"
+    prompt: |
+      新的一周开始！请执行每周素材清理：
+      1. 扫描 {VAULT_ROOT}/10-raw/inbox/ 目录，列出所有文件
+      2. 如果 inbox 为空：说"素材库很干净 ✅"
+      3. 如果有未处理素材：评估价值，推荐提炼到 wiki 的哪个子目录
+      4. 保持简洁
+    skills:
+      - "raw-refine"
+      - "vault-rules"
+
+  - name: "数据回收提醒"
+    schedule: "0 20 * * 0"
+    prompt: |
+      周日晚，请提醒用户回收本周内容数据：
+      1. 扫描 {VAULT_ROOT}/30-flow/10-公域流量/20-内容管理/ 所有平台目录
+      2. 找出本周已发布但缺少数据的文件
+      3. 列出需要报数据的清单
+    skills:
+      - "platform-traffic"
+      - "vault-rules"
+
+  - name: "CRM跟进提醒"
+    schedule: "0 9 * * 3"
+    prompt: |
+      周三上午，请检查CRM跟进情况：
+      1. 扫描 {VAULT_ROOT}/30-flow/30-CRM/10-线索管理/ 目录
+      2. 找出需要跟进的线索，根据时区给出最佳联系时间建议
+      3. 输出需要跟进的客户清单
+    skills:
+      - "crm"
+      - "vault-rules"
+
+  - name: "选题池检查"
+    schedule: "0 15 * * 5"
+    prompt: |
+      周五下午，请检查选题池状态：
+      1. 读取 {VAULT_ROOT}/30-flow/10-公域流量/10-选题池/ 目录
+      2. 统计各状态选题数量
+      3. 给出补充建议
+    skills:
+      - "platform-traffic"
+      - "raw-refine"
+      - "vault-rules"
