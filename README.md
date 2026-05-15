@@ -62,7 +62,8 @@ _shared/（通用骨架）
 
 1. [Hermes Agent](https://github.com/nousresearch/hermes-agent) 已安装并配置
 2. 终端或消息平台已连接 Hermes
-3. Obsidian 环境（Hermes 会自动帮你装）
+
+不需要安装 Obsidian 应用。Hermes 会直接创建一个结构化的 Markdown 知识库目录，包含 Obsidian 的 `.obsidian` 配置文件。你可以随时在其他设备上用 Obsidian 桌面版/手机版打开这个目录来浏览和编辑。
 
 ### 一键搭建
 
@@ -188,20 +189,98 @@ _variants/overseas/  19 文件  — 海外版差集
 
 **触发条件**：用户说"请按照 crazy-agent 国内版搭建我的 Vault"或引用本 README。
 
-#### Phase 1: 环境准备
+#### Phase 1: 创建 Vault 骨架
 
-检测操作系统，安装 Obsidian 环境：
+在用户指定路径下创建 Obsidian 兼容的 Markdown 知识库目录结构，包含 `.obsidian` 配置文件：
 
-**Linux 无桌面** — 安装 [Obsidian Headless](https://obsidian.md/zh/help/headless)：
 ```bash
-npm install -g obsidian-headless
-ob login
+VAULT="{用户确认的路径}"
+
+# 创建 .obsidian 基础配置（Obsidian 核心设置）
+mkdir -p "$VAULT/.obsidian"
+cat > "$VAULT/.obsidian/app.json" << 'EOF'
+{
+  "accentColor": "",
+  "baseFontSize": 16,
+  "cssTheme": "",
+  "interfaceFontFamily": "",
+  "textFontFamily": "",
+  "monospaceFontFamily": "",
+  "nativeMenus": false
+}
+EOF
+
+cat > "$VAULT/.obsidian/appearance.json" << 'EOF'
+{
+  "baseFontSize": 16,
+  "interfaceFontSize": 14,
+  "cssTheme": ""
+}
+EOF
+
+cat > "$VAULT/.obsidian/core-plugins.json" << 'EOF'
+[
+  "file-explorer",
+  "global-search",
+  "switcher",
+  "graph",
+  "backlink",
+  "outgoing-link",
+  "tag-pane",
+  "page-preview",
+  "templates",
+  "daily-notes",
+  "starred",
+  "random-note"
+]
+EOF
+
+cat > "$VAULT/.obsidian/workspace.json" << 'EOF'
+{
+  "main": {
+    "id": "",
+    "type": "split",
+    "children": []
+  },
+  "left": {
+    "id": "",
+    "type": "split",
+    "children": [
+      {
+        "id": "",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          }
+        ]
+      },
+      {
+        "id": "",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": { "query": "", "matchingCase": false, "explainSearch": false, "collapseAll": false, "extraContext": false }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF
 ```
 
-**Windows / macOS / Linux 有桌面** — 安装 Obsidian + CLI：
-1. 安装 [Obsidian](https://obsidian.md/) 1.12.7+
-2. 设置 → 通用 → 启用命令行界面
-3. `obsidian help` 验证
+> 这些配置文件确保用户在其他设备上用 Obsidian 桌面版/手机版打开此目录时，能正确识别为 Vault 并获得标准体验。
 
 #### Phase 2: 确认信息
 
@@ -299,9 +378,13 @@ cp -r _shared/mock-data/* "$VAULT/"  # 覆盖对应目录
 ```bash
 cd "$VAULT"
 
-# 创建 .gitignore
+# 创建 .gitignore（保留 .obsidian 核心配置，忽略运行时缓存）
 cat > .gitignore << 'EOF'
-.obsidian/
+.obsidian/workspace*
+.obsidian/graph.json
+.obsidian/cache
+.obsidian/hotkeys.json
+.obsidian/community-plugins.json
 .DS_Store
 .gitkeep
 *.swp
@@ -346,7 +429,7 @@ git commit -m "init: Vault initialized by Crazy Agent (domestic)"
 
 ════════════════════════════════════
   下一步：
-  1. 打开 Obsidian，浏览 Vault 结构
+  1. 在其他设备上用 Obsidian 打开 Vault 目录（Obsidian → 打开文件夹作为仓库）
   2. 填写 00-me/ 下的 5 个配置文件
   3. 把现有素材扔进 10-raw/inbox/
   4. 如果不需要 Mock 数据，删除带 mock:true 的文件
@@ -424,10 +507,11 @@ done
 不用 Hermes Agent 也可以：
 
 1. 创建上述九层目录结构（`mkdir -p`）
-2. 从 `_shared/templates/` 复制模板到对应位置
-3. 选择 `_variants/domestic/` 或 `_variants/overseas/` 覆盖差异文件
-4. 将 `_shared/skills/` 复制到 `~/.hermes/skills/`，替换 `{VAULT_ROOT}`
-5. 按需配置 cron 任务
+2. 创建 `.obsidian/` 配置文件（参考 Phase 1）
+3. 从 `_shared/templates/` 复制模板到对应位置
+4. 选择 `_variants/domestic/` 或 `_variants/overseas/` 覆盖差异文件
+5. 将 `_shared/skills/` 复制到 `~/.hermes/skills/`，替换 `{VAULT_ROOT}`
+6. 按需配置 cron 任务
 
 ---
 
