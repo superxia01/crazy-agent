@@ -282,6 +282,18 @@ EOF
 
 > 这些配置文件确保用户在其他设备上用 Obsidian 桌面版/手机版打开此目录时，能正确识别为 Vault 并获得标准体验。
 
+创建九层目录骨架（Obsidian Vault 标准目录结构）：
+
+```bash
+# 创建九层目录
+mkdir -p "$VAULT"/{00-me/{10-定位与品牌,20-产品与业务,30-目标客户,40-账号矩阵,50-目标与节奏},10-raw/{inbox,cleaned,tagged},20-wiki/{10-行业与市场,20-产品知识,30-客户洞察,40-销售与转化,50-内容与流量,60-实战复盘},30-flow/{10-公域流量/{10-选题池,20-内容管理,30-数据统计,40-内容资产,50-素材提炼},20-私域运营/{10-朋友圈,20-社群,30-数据周报},30-CRM/{10-线索管理,20-成交记录},40-产品交付},40-agents/{skills,schedules,10-内容创作,20-调研分析,30-运营管理,40-效率工具},50-projects/{客户,品牌,账号},60-assets/{内容模板,PPT模板,报价方案,合同},99-archive}
+
+# 创建平台特定目录
+for platform in {用户选择的平台}; do
+  mkdir -p "$VAULT/30-flow/10-公域流量/20-内容管理/$platform"
+done
+```
+
 #### Phase 2: 确认信息
 
 询问用户确认（提供默认值，回车可跳过）：
@@ -293,26 +305,9 @@ EOF
 
 显示摘要，等待用户确认后继续。
 
-#### Phase 3: 创建 Vault 结构
+> **注意**：Phase 1 中的 `{用户确认的路径}` 和 `{用户选择的平台}` 为占位符，Agent 应在 Phase 2 获得用户确认后，用实际值替换并执行创建。如果 Agent 能提前确认信息，也可以先确认再创建。
 
-```bash
-VAULT="{用户确认的路径}"
-
-# 复制共享骨架
-cp -r _shared/skeleton/* "$VAULT/skeleton-temp/"
-cp -r _shared/templates/* "$VAULT/templates-temp/"
-cp -r _shared/skills/* "$VAULT/skills-temp/"
-
-# 创建九层目录
-mkdir -p "$VAULT"/{00-me/{10-定位与品牌,20-产品与业务,30-目标客户,40-账号矩阵,50-目标与节奏},10-raw/{inbox,cleaned,tagged},20-wiki/{10-行业与市场,20-产品知识,30-客户洞察,40-销售与转化,50-内容与流量,60-实战复盘},30-flow/{10-公域流量/{10-选题池,20-内容管理,30-数据统计,40-内容资产,50-素材提炼},20-私域运营/{10-朋友圈,20-社群,30-数据周报},30-CRM/{10-线索管理,20-成交记录},40-产品交付},40-agents/{skills,schedules,10-内容创作,20-调研分析,30-运营管理,40-效率工具},50-projects/{客户,品牌,账号},60-assets/{内容模板,PPT模板,报价方案,合同},99-archive}
-
-# 创建平台特定目录
-for platform in {用户选择的平台}; do
-  mkdir -p "$VAULT/30-flow/10-公域流量/20-内容管理/$platform"
-done
-```
-
-#### Phase 4: 放置共享模板
+#### Phase 3: 放置共享模板
 
 将 `_shared/templates/` 下的文件复制到 Vault 对应位置：
 
@@ -325,7 +320,7 @@ done
 | `templates/root/系统使用指南.md` | `系统使用指南.md`（Vault 根目录） |
 | `templates/root/骨架设计说明.md` | `骨架设计说明.md`（Vault 根目录） |
 
-#### Phase 5: 覆盖国内版差集
+#### Phase 4: 覆盖国内版差集
 
 将 `_variants/domestic/` 下的文件复制到 Vault 对应位置（覆盖同名共享文件）：
 
@@ -342,7 +337,7 @@ done
 | `templates/flow/填写指南.md` | `30-flow/30-CRM/20-成交记录/填写指南.md` |
 | `templates/assets/*.md` | `60-assets/内容模板/` |
 
-#### Phase 6: 安装 Skills
+#### Phase 5: 安装 Skills
 
 将 `_shared/skills/` 和 `_variants/domestic/skills/` 的所有 .md 文件安装到 Hermes：
 
@@ -356,7 +351,7 @@ done
 
 共 10 个 Skills。
 
-#### Phase 7: 配置定时任务
+#### Phase 6: 配置定时任务
 
 读取 `_variants/domestic/schedules/default-schedules.yaml`，为每个任务：
 1. 替换 `{VAULT_ROOT}` 为用户 Vault 路径
@@ -364,7 +359,7 @@ done
 
 国内版定时任务：朋友圈提醒 ×3 + 素材清理 + 数据回收 + CRM跟进 + 选题检查 = 7 个
 
-#### Phase 8: 放置 Mock 数据（可选）
+#### Phase 7: 放置 Mock 数据（可选）
 
 如果用户选择包含 Mock 数据：
 ```bash
@@ -373,7 +368,7 @@ cp -r _shared/mock-data/* "$VAULT/"  # 覆盖对应目录
 
 将 mock 数据中所有文件的 `{VAULT_ROOT}` 替换为实际路径。
 
-#### Phase 9: 初始化 Git
+#### Phase 8: 初始化 Git
 
 ```bash
 cd "$VAULT"
@@ -395,7 +390,7 @@ git add -A
 git commit -m "init: Vault initialized by Crazy Agent (domestic)"
 ```
 
-#### Phase 10: 完成报告
+#### Phase 9: 完成报告
 
 输出：
 ```
@@ -451,7 +446,7 @@ git commit -m "init: Vault initialized by Crazy Agent (domestic)"
 4. **目标市场时区** — 默认：`EST (UTC-5)`。选项：EST/PST/GMT/GST
 5. **内容语言** — 默认：`English`
 
-#### Phase 3 目录结构差异
+#### Phase 1 目录结构差异
 
 平台目录创建：
 ```bash
@@ -460,7 +455,7 @@ for platform in {用户选择的平台}; do
 done
 ```
 
-#### Phase 5 差集差异
+#### Phase 4 差集差异
 
 使用 `_variants/overseas/` 而非 `_variants/domestic/`：
 
@@ -477,18 +472,18 @@ done
 | `templates/flow/成交记录填写指南.md` | `30-flow/30-CRM/20-成交记录/填写指南.md` |
 | `templates/assets/*.md` | `60-assets/内容模板/`（7 个海外平台模板） |
 
-#### Phase 6 Skills 差异
+#### Phase 5 Skills 差异
 
 海外版 Skills：`crm`, `platform-traffic`, `private-domain`（从 `_variants/overseas/skills/` 安装）
 共仍为 10 个 Skills（7 共享 + 3 海外版）。
 
-#### Phase 7 定时任务差异
+#### Phase 6 定时任务差异
 
 读取 `_variants/overseas/schedules/default-schedules.yaml`。
 
 海外版定时任务：WhatsApp Status 提醒 + Email Newsletter 检查 + 素材清理 + 数据回收 + CRM跟进 + 选题检查 = 6 个
 
-#### Phase 10 完成报告差异
+#### Phase 9 完成报告差异
 
 ```
 ⏰ 定时任务（6 个）：
