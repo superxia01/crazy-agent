@@ -131,7 +131,7 @@ tags:
 1. **必填字段**：`name`、`country`、`type`（B2B/B2C）、`source`
 2. **尽量补全**：`email`、`whatsapp`、`timezone`、`language`
 3. **自动推断**：根据国家自动建议 timezone 和常用语言
-4. **文件命名**：`CRM-{{name}}-{{company}}.md`，存放在 `50-projects/customers/` 目录下
+4. **文件命名**：`{状态emoji}{{name}}-{{company}}.md`，存放在 `[VAULT_ROOT]/30-flow/30-CRM/10-线索管理/` 目录下（与国内版统一）
 5. **自动标签**：添加"客户"标签 + 国家/地区标签 + 业务类型标签（B2B/B2C）
 
 ---
