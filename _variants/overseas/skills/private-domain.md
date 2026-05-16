@@ -160,7 +160,7 @@ Step 1: 理解用户风格 → Step 2: 内容规划 → Step 3: 内容生成 →
 ```
 
 **排期工具：**
-- 存入内容日历文件：`[VAULT_ROOT]/30-flow/20-私域运营/00-内容日历/content-calendar.md`
+- 存入内容日历文件：`[VAULT_ROOT]/40-flow/20-私域运营/00-内容日历/content-calendar.md`
 - 使用 UTC 时间标注，备注目标市场本地时间
 
 ### 2.6 Step 5 — 数据复盘 Data Review
@@ -486,10 +486,10 @@ I'll prepare a custom quote for you! 📋"
 
 ## 4. 内容目录结构 Content Directory Structure
 
-所有私域运营相关文件存储在 `[VAULT_ROOT]/30-flow/20-私域运营/` 下：
+所有私域运营相关文件存储在 `[VAULT_ROOT]/40-flow/20-私域运营/` 下：
 
 ```
-30-flow/20-私域运营/
+40-flow/20-私域运营/
 ├── 00-内容日历/
 │   ├── content-calendar.md          # 总内容日历（所有渠道汇总）
 │   ├── 2026-WXX-plan.md             # 当周内容计划
@@ -603,7 +603,7 @@ Instagram DM (主动):
 
 ### 6.1 周报结构
 
-每周一生成上周数据报告，存入 `[VAULT_ROOT]/30-flow/20-私域运营/05-数据分析/weekly-report-template.md`
+每周一生成上周数据报告，存入 `[VAULT_ROOT]/40-flow/20-私域运营/05-数据分析/weekly-report-template.md`
 
 ```markdown
 # Private Domain Weekly Report

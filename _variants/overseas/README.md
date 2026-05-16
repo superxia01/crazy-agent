@@ -14,8 +14,8 @@
 ## 搭建时操作
 
 1. 先复制 _shared/ 到 vault 根目录
-2. 将本 variant 的 skills/ 复制到 40-agents/skills/
+2. 将本 variant 的 skills/ 复制到 10-AI/skills/
 3. 将本 variant 的 templates/me/ 复制到 00-me/ 对应子目录
-4. 将本 variant 的 templates/flow/ 复制到 30-flow/ 对应子目录
-5. 将本 variant 的 templates/assets/ 复制到 60-assets/内容模板/
+4. 将本 variant 的 templates/flow/ 复制到 40-flow/ 对应子目录
+5. 将本 variant 的 templates/assets/ 复制到 50-assets/内容模板/
 6. 创建平台特定内容目录：Facebook/Instagram/TikTok/YouTube/Blog

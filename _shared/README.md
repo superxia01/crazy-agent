@@ -6,7 +6,7 @@
 
 搭建 Vault 时，按以下顺序操作：
 
-1. **复制 _shared 到 vault 根目录** — 将 `_shared/templates/` 下的文件展开到 vault 对应目录，`_shared/skills/` 复制到 `40-agents/skills/`
+1. **复制 _shared 到 vault 根目录** — 将 `_shared/templates/` 下的文件展开到 vault 对应目录，`_shared/skills/` 复制到 `10-AI/skills/`
 2. **叠加 variant** — 根据 variant（国内版/海外版）复制 `_variants/{variant}/` 下的差集文件，覆盖或补充共享文件
 3. **填充用户数据** — 用户按照填写指南填写 00-me 和各模板
 
@@ -21,9 +21,9 @@ _shared/
 │   └── status-flow.md         # 状态流转规则
 ├── templates/                 # 共享模板文件
 │   ├── me/                    # 00-me 模板（8个）
-│   ├── wiki/                  # 20-wiki 模板（21个内容 + 6个README）
-│   ├── flow/                  # 30-flow 填写指南（11个）
-│   ├── agents/                # 40-agents 助手（4个）
+│   ├── wiki/                  # 30-wiki 模板（21个内容 + 6个README）
+│   ├── flow/                  # 40-flow 填写指南（11个）
+│   ├── agents/                # 10-AI 助手（4个）
 │   └── root/                  # 根目录文件（2个）
 └── skills/                    # 共享 Skills（2个）
     ├── vault-rules.md

@@ -29,7 +29,7 @@ crazy-agent/
 ├── README.md                    ← 你在这里
 ├── _shared/                     ← 📦 共享骨架（两个版本共用）
 │   ├── skeleton/                ←   九层目录定义 + 命名规则 + 状态流转
-│   ├── templates/               ←   共享模板（00-me / 20-wiki / 30-flow / 40-agents）
+│   ├── templates/               ←   共享模板（00-me / 30-wiki / 40-flow / 10-AI）
 │   ├── skills/                  ←   共享 Skills（7 个）
 │   └── mock-data/               ←   演示数据（可删可留）
 ├── _variants/
@@ -91,22 +91,22 @@ Vault Root/
 │   ├── 30-目标客户/       客户画像、分层标准
 │   ├── 40-账号矩阵/       平台账号、人设统一
 │   └── 50-目标与节奏/     商业目标、日常节奏
-├── 10-raw/         📥 Input — 素材收件箱（只进不改）
-├── 20-wiki/        📚 Knowledge — 你消化后的知识（只放结论）
+├── 20-raw/         📥 Input — 素材收件箱（只进不改）
+├── 30-wiki/        📚 Knowledge — 你消化后的知识（只放结论）
 │   ├── 10-行业与市场/
 │   ├── 20-产品知识/
 │   ├── 30-客户洞察/
 │   ├── 40-销售与转化/
 │   ├── 50-内容与流量/
 │   └── 60-实战复盘/
-├── 30-flow/        🔁 Workflow — 日常工作流
+├── 40-flow/        🔁 Workflow — 日常工作流
 │   ├── 10-公域流量/       选题→创作→发布→数据
 │   ├── 20-私域运营/       朋友圈/社群/数据周报
 │   ├── 30-CRM/            线索→跟进→成交→归档
 │   └── 40-产品交付/       交付物管理
-├── 40-agents/      🤖 AI Layer — Agent 配置和 Skills
-├── 50-projects/    📦 Entities — 客户档案、品牌资产
-├── 60-assets/      💰 Templates — 可复用模板
+├── 10-AI/      🤖 AI Layer — Agent 配置和 Skills
+├── 40-flow/    📦 Entities — 客户档案、品牌资产
+├── 50-assets/      💰 Templates — 可复用模板
 └── 99-archive/     🗄️ Archive — 归档
 ```
 
@@ -114,24 +114,24 @@ Vault Root/
 
 | 层 | 规则 |
 |----|------|
-| `10-raw` | **只进不改** — 素材扔进去，永远不改原文件。改写不了的留在 raw。 |
-| `20-wiki` | **只放结论** — 只写你自己消化后的结论。复制粘贴的放 raw。 |
-| `30-flow` | **只做调用** — 这里的工作只调用 wiki 知识，不产出知识。 |
+| `20-raw` | **只进不改** — 素材扔进去，永远不改原文件。改写不了的留在 raw。 |
+| `30-wiki` | **只放结论** — 只写你自己消化后的结论。复制粘贴的放 raw。 |
+| `40-flow` | **只做调用** — 这里的工作只调用 wiki 知识，不产出知识。 |
 
 ### 数据流
 
 ```
-看到好内容 → 10-raw/inbox/（扔进去）
+看到好内容 → 20-raw/inbox/（扔进去）
                 ↓ 定期清理
             有价值的 → 消化提炼
                 ↓
-            20-wiki/（用自己的话写结论）
+            30-wiki/（用自己的话写结论）
                 ↓
-            30-flow/（用 wiki 知识做日常工作）
+            40-flow/（用 wiki 知识做日常工作）
                 ↓
-            50-projects/（落到真实客户/项目）
+            40-flow/（落到真实客户/项目）
                 ↓
-            60-assets/（好东西变成可复用资产）
+            50-assets/（好东西变成可复用资产）
 ```
 
 ---
@@ -286,11 +286,11 @@ EOF
 
 ```bash
 # 创建九层目录
-mkdir -p "$VAULT"/{00-me/{10-定位与品牌,20-产品与业务,30-目标客户,40-账号矩阵,50-目标与节奏},10-raw/{inbox,cleaned,tagged},20-wiki/{10-行业与市场,20-产品知识,30-客户洞察,40-销售与转化,50-内容与流量,60-实战复盘},30-flow/{10-公域流量/{10-选题池,20-内容管理,30-数据统计,40-内容资产,50-素材提炼},20-私域运营/{10-朋友圈,20-社群,30-数据周报},30-CRM/{10-线索管理,20-成交记录},40-产品交付},40-agents/{skills,schedules,10-内容创作,20-调研分析,30-运营管理,40-效率工具},50-projects/{客户,品牌,账号},60-assets/{内容模板,PPT模板,报价方案,合同},99-archive}
+mkdir -p "$VAULT"/{00-me/{10-定位与品牌,20-产品与业务,30-目标客户,40-账号矩阵,50-目标与节奏},20-raw/{inbox,cleaned,tagged},30-wiki/{10-行业与市场,20-产品知识,30-客户洞察,40-销售与转化,50-内容与流量,60-实战复盘},40-flow/{10-公域流量/{10-选题池,20-内容管理,30-数据统计,40-内容资产,50-素材提炼},20-私域运营/{10-朋友圈,20-社群,30-数据周报},30-CRM/{10-线索管理,20-成交记录},40-产品交付},10-AI/{skills,schedules,10-内容创作,20-调研分析,30-运营管理,40-效率工具},40-flow/{客户,品牌,账号},50-assets/{内容模板,PPT模板,报价方案,合同},99-archive}
 
 # 创建平台特定目录
 for platform in {用户选择的平台}; do
-  mkdir -p "$VAULT/30-flow/10-公域流量/20-内容管理/$platform"
+  mkdir -p "$VAULT/40-flow/10-公域流量/20-内容管理/$platform"
 done
 ```
 
@@ -314,9 +314,9 @@ done
 | 源 | 目标 |
 |----|------|
 | `templates/me/*.md` | `00-me/` 对应子目录 |
-| `templates/wiki/**/*.md` | `20-wiki/` 对应子目录 |
-| `templates/flow/*.md` | `30-flow/` 对应子目录（按文件名判断） |
-| `templates/agents/*.md` | `40-agents/` 对应子目录 |
+| `templates/wiki/**/*.md` | `30-wiki/` 对应子目录 |
+| `templates/flow/*.md` | `40-flow/` 对应子目录（按文件名判断） |
+| `templates/agents/*.md` | `10-AI/` 对应子目录 |
 | `templates/root/系统使用指南.md` | `系统使用指南.md`（Vault 根目录） |
 | `templates/root/骨架设计说明.md` | `骨架设计说明.md`（Vault 根目录） |
 
@@ -326,16 +326,16 @@ done
 
 | 源 | 目标 |
 |----|------|
-| `skills/crm.md` | `40-agents/skills/crm.md` |
-| `skills/platform-traffic.md` | `40-agents/skills/platform-traffic.md` |
-| `skills/private-domain.md` | `40-agents/skills/private-domain.md` |
+| `skills/crm.md` | `10-AI/skills/crm.md` |
+| `skills/platform-traffic.md` | `10-AI/skills/platform-traffic.md` |
+| `skills/private-domain.md` | `10-AI/skills/private-domain.md` |
 | `templates/me/产品与服务清单.md` | `00-me/20-产品与业务/产品与服务清单.md` |
 | `templates/me/目标客户画像.md` | `00-me/30-目标客户/目标客户画像.md` |
 | `templates/me/平台账号信息.md` | `00-me/40-账号矩阵/平台账号信息.md` |
-| `templates/flow/_template-选题卡.md` | `30-flow/10-公域流量/10-选题池/_template-选题卡.md` |
-| `templates/flow/_template-线索卡.md` | `30-flow/30-CRM/10-线索管理/_template-线索卡.md` |
-| `templates/flow/填写指南.md` | `30-flow/30-CRM/20-成交记录/填写指南.md` |
-| `templates/assets/*.md` | `60-assets/内容模板/` |
+| `templates/flow/_template-选题卡.md` | `40-flow/10-公域流量/10-选题池/_template-选题卡.md` |
+| `templates/flow/_template-线索卡.md` | `40-flow/30-CRM/10-线索管理/_template-线索卡.md` |
+| `templates/flow/填写指南.md` | `40-flow/30-CRM/20-成交记录/填写指南.md` |
+| `templates/assets/*.md` | `50-assets/内容模板/` |
 
 #### Phase 5: 安装 Skills
 
@@ -426,7 +426,7 @@ git commit -m "init: Vault initialized by Crazy Agent (domestic)"
   下一步：
   1. 在其他设备上用 Obsidian 打开 Vault 目录（Obsidian → 打开文件夹作为仓库）
   2. 填写 00-me/ 下的 5 个配置文件
-  3. 把现有素材扔进 10-raw/inbox/
+  3. 把现有素材扔进 20-raw/inbox/
   4. 如果不需要 Mock 数据，删除带 mock:true 的文件
   5. 开始创作！
 ════════════════════════════════════
@@ -451,7 +451,7 @@ git commit -m "init: Vault initialized by Crazy Agent (domestic)"
 平台目录创建：
 ```bash
 for platform in {用户选择的平台}; do
-  mkdir -p "$VAULT/30-flow/10-公域流量/20-内容管理/$platform"
+  mkdir -p "$VAULT/40-flow/10-公域流量/20-内容管理/$platform"
 done
 ```
 
@@ -461,16 +461,16 @@ done
 
 | 源 | 目标 |
 |----|------|
-| `skills/crm.md` | `40-agents/skills/crm.md` |
-| `skills/platform-traffic.md` | `40-agents/skills/platform-traffic.md` |
-| `skills/private-domain.md` | `40-agents/skills/private-domain.md` |
+| `skills/crm.md` | `10-AI/skills/crm.md` |
+| `skills/platform-traffic.md` | `10-AI/skills/platform-traffic.md` |
+| `skills/private-domain.md` | `10-AI/skills/private-domain.md` |
 | `templates/me/产品与服务清单.md` | `00-me/20-产品与业务/产品与服务清单.md` |
 | `templates/me/目标客户画像.md` | `00-me/30-目标客户/目标客户画像.md` |
 | `templates/me/平台账号信息.md` | `00-me/40-账号矩阵/平台账号信息.md` |
-| `templates/flow/_template-选题卡.md` | `30-flow/10-公域流量/10-选题池/_template-选题卡.md` |
-| `templates/flow/_template-线索卡.md` | `30-flow/30-CRM/10-线索管理/_template-线索卡.md` |
-| `templates/flow/成交记录填写指南.md` | `30-flow/30-CRM/20-成交记录/填写指南.md` |
-| `templates/assets/*.md` | `60-assets/内容模板/`（7 个海外平台模板） |
+| `templates/flow/_template-选题卡.md` | `40-flow/10-公域流量/10-选题池/_template-选题卡.md` |
+| `templates/flow/_template-线索卡.md` | `40-flow/30-CRM/10-线索管理/_template-线索卡.md` |
+| `templates/flow/成交记录填写指南.md` | `40-flow/30-CRM/20-成交记录/填写指南.md` |
+| `templates/assets/*.md` | `50-assets/内容模板/`（7 个海外平台模板） |
 
 #### Phase 5 Skills 差异
 
